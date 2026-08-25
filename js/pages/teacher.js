@@ -194,9 +194,9 @@
       id: UST.uid('c'), title: form.title.value.trim(), description: form.description.value.trim(),
       teacherId: Auth.user().id, categoryId: form.categoryId.value, stage: form.stage.value,
       price: Number(form.price.value) || 0, cover: form.cover.value, views: 0,
-      durationMins: 0, status: 'draft', createdAt: new Date().toISOString()
+      durationMins: 0, status: 'published', createdAt: new Date().toISOString()
     });
-    toast('تم إنشاء الكورس كمسودة ✅ أضف الدروس ثم انشره');
+    toast('🎉 تم إنشاء ونشر الكورس للطلاب!');
     document.querySelectorAll('.modal-overlay').forEach(x => x.remove());
     App.go('#/teacher/course-editor/' + c.id);
   });
@@ -394,6 +394,7 @@
   // ===== الدروس =====
   App.action('lesson-form-open', el => {
     const editing = el.dataset.id ? DB.get('lessons', el.dataset.id) : null;
+    const att = editing && editing.attachments && editing.attachments[0];
     modal({
       title: editing ? '✏️ تعديل الدرس' : '＋ درس جديد', size: 'lg',
       body:
@@ -404,22 +405,42 @@
             '<label class="field"><span>رابط الفيديو (MP4) *</span><input name="videoUrl" dir="ltr" required placeholder="https://…/video.mp4" value="' + esc(editing ? editing.videoUrl : '') + '"/></label>' +
           '</div>' +
           '<label class="field"><span>وصف الدرس</span><textarea name="description" rows="3">' + esc(editing ? editing.description : '') + '</textarea></label>' +
-          '<label class="field"><span>ملف مرفق PDF — الاسم (اختياري)</span><input name="attName" dir="auto" placeholder="ملخص الدرس.pdf" value="' + esc(editing && editing.attachments[0] ? editing.attachments[0].name : '') + '"/></label>' +
-          '<p class="hint">💡 في Demo Mode يتم ربط الفيديو عبر رابط مباشر؛ عند الربط بـ Supabase Storage سيتم رفع الملفات فعليًا.</p>' +
+          '<label class="field"><span>📎 ملف PDF مرفق (اختياري)</span><input type="file" name="attFile" accept=".pdf" class="lesson-pdf-input"/></label>' +
+          (att && att.dataUrl ? '<p class="hint">✅ يوجد ملف مرفق: <b>' + esc(att.name) + '</b> — ارفع ملف جديد لاستبداله</p>' : '') +
+          '<input type="hidden" name="attDataUrl" value="' + (att && att.dataUrl ? att.dataUrl : '') + '"/>' +
+          '<input type="hidden" name="attName" value="' + (att ? att.name : '') + '"/>' +
           '<button class="btn btn-primary btn-block" type="submit">' + (editing ? '💾 حفظ' : '＋ إضافة الدرس') + '</button>' +
         '</form>'
     });
+    const fileInput = document.querySelector('.lesson-pdf-input');
+    if (fileInput) {
+      fileInput.addEventListener('change', function () {
+        if (!this.files || !this.files[0]) return;
+        const f = this.files[0];
+        if (f.size > 10 * 1024 * 1024) { toast('الملف كبير جدًا — الحد الأقصى 10MB', 'error'); this.value = ''; return; }
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const form = document.querySelector('form[data-form="add-lesson"], form[data-form="edit-lesson"]');
+          if (form) {
+            form.attDataUrl.value = e.target.result;
+            form.attName.value = f.name;
+          }
+        };
+        reader.readAsDataURL(f);
+      });
+    }
   });
 
   App.action('add-lesson', form => {
     const secLes = Api.sectionLessons(form.dataset.section);
     const attName = form.attName.value.trim();
+    const attDataUrl = form.attDataUrl.value;
     DB.insert('lessons', {
       id: UST.uid('les'), sectionId: form.dataset.section, courseId: form.dataset.course,
       title: form.title.value.trim(), durationMins: Number(form.duration.value) || 20,
       description: form.description.value.trim(),
       videoUrl: form.videoUrl.value.trim(),
-      attachments: attName ? [{ name: attName, type: 'pdf', url: '#' }] : [],
+      attachments: attName ? [{ name: attName, type: 'pdf', url: attDataUrl || '#', dataUrl: attDataUrl || '' }] : [],
       order: secLes.length, createdAt: new Date().toISOString()
     });
     recalcCourseDuration(form.dataset.course);
@@ -430,10 +451,11 @@
 
   App.action('edit-lesson', form => {
     const attName = form.attName.value.trim();
+    const attDataUrl = form.attDataUrl.value;
     DB.update('lessons', form.dataset.id, {
       title: form.title.value.trim(), durationMins: Number(form.duration.value) || 20,
       description: form.description.value.trim(), videoUrl: form.videoUrl.value.trim(),
-      attachments: attName ? [{ name: attName, type: 'pdf', url: '#' }] : []
+      attachments: attName ? [{ name: attName, type: 'pdf', url: attDataUrl || '#', dataUrl: attDataUrl || '' }] : []
     });
     recalcCourseDuration(form.dataset.course);
     toast('تم حفظ الدرس ✅');

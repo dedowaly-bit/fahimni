@@ -44,13 +44,13 @@
 
         // أقسام تنظيمية (إعدادات منصة وليست محتوى وهميًا) — بهوية رصاصية
         categories: [
-          { id: 'cat_math', name: 'الرياضيات', icon: '📐', color: '#1f2937', description: 'جبر، حساب مثلثات، تفاضل وتكامل' },
-          { id: 'cat_phy', name: 'الفيزياء', icon: '⚛️', color: '#374151', description: 'ميكانيكا، كهرباء، فيزياء حديثة' },
-          { id: 'cat_che', name: 'الكيمياء', icon: '🧪', color: '#4b5563', description: 'عضوية، غير عضوية، تحليلية' },
-          { id: 'cat_bio', name: 'الأحياء', icon: '🧬', color: '#6b7280', description: 'وراثة، نبات، حيوان، إنسان' },
-          { id: 'cat_ar', name: 'لغة عربية', icon: '📖', color: '#52525b', description: 'نحو، بلاغة، أدب ونصوص' },
-          { id: 'cat_en', name: 'لغة إنجليزية', icon: '🌐', color: '#71717a', description: 'قواعد، محادثة، مهارات' },
-          { id: 'cat_cs', name: 'الحاسوب', icon: '💻', color: '#9ca3af', description: 'برمجة، أساسيات، تطبيقات' }
+          { id: 'cat_math', name: 'الرياضيات', icon: '📐', color: '#0ea5e9', description: 'جبر، حساب مثلثات، تفاضل وتكامل' },
+          { id: 'cat_phy', name: 'الفيزياء', icon: '⚛️', color: '#0284c7', description: 'ميكانيكا، كهرباء، فيزياء حديثة' },
+          { id: 'cat_che', name: 'الكيمياء', icon: '🧪', color: '#eab308', description: 'عضوية، غير عضوية، تحليلية' },
+          { id: 'cat_bio', name: 'الأحياء', icon: '🧬', color: '#0369a1', description: 'وراثة، نبات، حيوان، إنسان' },
+          { id: 'cat_ar', name: 'لغة عربية', icon: '📖', color: '#0891b2', description: 'نحو، بلاغة، أدب ونصوص' },
+          { id: 'cat_en', name: 'لغة إنجليزية', icon: '🌐', color: '#f59e0b', description: 'قواعد، محادثة، مهارات' },
+          { id: 'cat_cs', name: 'الحاسوب', icon: '💻', color: '#38bdf8', description: 'برمجة، أساسيات، تطبيقات' }
         ],
 
         // الرسائل الداخلية (إدارة ↔ مدرسين) تبدأ فارغة

@@ -527,7 +527,7 @@
               (lesson.attachments && lesson.attachments.length
                 ? '<div class="attachments">' +
                     lesson.attachments.map(att =>
-                      '<button class="attach-chip" data-action="attachment-click" data-name="' + esc(att.name) + '">📄 ' + esc(att.name) + ' <small>تحميل</small></button>').join('') +
+                      '<button class="attach-chip" data-action="attachment-click" data-name="' + esc(att.name) + '" data-url="' + esc(att.dataUrl || att.url || '') + '">📄 ' + esc(att.name) + ' <small>تحميل</small></button>').join('') +
                   '</div>'
                 : '') +
               '<div class="player-nav">' +
@@ -732,7 +732,19 @@
   });
 
   App.action('attachment-click', el => {
-    toast('المرفقات («' + el.dataset.name + '») متاحة للتحميل في النسخة المتصلة بالخادم', 'info');
+    const name = el.dataset.name;
+    const dataUrl = el.dataset.url;
+    if (dataUrl && dataUrl.startsWith('data:')) {
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      toast('جاري تحميل ' + name, 'info');
+    } else {
+      toast('المرفقات متاحة للتحميل في النسخة المتصلة بالخادم', 'info');
+    }
   });
 
   // ===== التقييم =====

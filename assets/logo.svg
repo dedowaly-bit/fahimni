@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 260" width="220" height="260">
+  <defs>
+    <linearGradient id="pageL" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e5e7eb"/><stop offset="1" stop-color="#9ca3af"/>
+    </linearGradient>
+    <linearGradient id="pageR" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e5e7eb"/><stop offset="1" stop-color="#9ca3af"/>
+    </linearGradient>
+    <linearGradient id="bulbGlass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d1d5db"/>
+    </linearGradient>
+  </defs>
+
+  <!-- أشعة اللمبة -->
+  <g stroke="#6b7280" stroke-width="7" stroke-linecap="round">
+    <line x1="110" y1="18" x2="110" y2="34"/>
+    <line x1="70"  y1="30" x2="79" y2="44"/>
+    <line x1="150" y1="30" x2="141" y2="44"/>
+    <line x1="48"  y1="62" x2="63" y2="68"/>
+    <line x1="172" y1="62" x2="157" y2="68"/>
+  </g>
+
+  <!-- اللمبة -->
+  <circle cx="110" cy="88" r="30" fill="url(#bulbGlass)" stroke="#374151" stroke-width="8"/>
+  <path d="M102 96 q8 -14 16 0" fill="none" stroke="#4b5563" stroke-width="5" stroke-linecap="round"/>
+  <rect x="99" y="116" width="22" height="10" rx="4" fill="#6b7280"/>
+  <rect x="102" y="126" width="16" height="7" rx="3" fill="#4b5563"/>
+
+  <!-- الكتاب المفتوح -->
+  <path d="M28 158 Q66 140 106 150 L106 208 Q66 198 32 210 Z" fill="url(#pageR)" stroke="#374151" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M192 158 Q154 140 114 150 L114 208 Q154 198 188 210 Z" fill="url(#pageL)" stroke="#374151" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M110 152 L110 206" stroke="#374151" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- الاسم -->
+  <text x="110" y="252" text-anchor="middle" font-family="Cairo, 'Segoe UI', Tahoma, sans-serif"
+        font-size="46" font-weight="900" fill="#111827">فهمني</text>
+</svg>
